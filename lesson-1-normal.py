@@ -29,7 +29,7 @@ a, b = input('Введите значения для двух переменны
 a = a + b
 b = a - b
 a = a - b
-print a, b
+print(a, b)
 
 
 
@@ -49,11 +49,11 @@ if a == 0:
 else:
     d = b**2 - 4 * a * c
     if d < 0:
-        print 'Нет действительный корней'
+        print('Нет действительный корней')
     elif d == 0:
         x1 = -b/2*a
-        print 'Один корень:', x1
+        print('Один корень:', x1)
     elif d > 0:
         x1 = (-1*b + math.sqrt(d))/(2 * a)
         x2 = (-1*b - math.sqrt(d))/(2 * a)
-        print 'Два корня: ', x1, x2
+        print('Два корня: ', x1, x2)
