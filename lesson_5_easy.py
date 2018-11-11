@@ -34,7 +34,8 @@ def remove_ten_folders():
 # Задача-2:
 # Напишите скрипт, отображающий папки текущей директории.
 
-def show_folders_list():
+def show_folders():
+    # Из всего содержимого будут выведены только названия папок
     print([dir_name for dir_name in os.listdir() if os.path.isdir(os.path.join(os.getcwd(), dir_name))])
 
 # Задача-3:
@@ -61,6 +62,6 @@ def copy_current_file():
         print('Файл скопирован \n')
 
 # create_ten_folders()
-# show_folders_list()
+# show_folders()
 # remove_ten_folders()
 # copy_current_file()
