@@ -44,21 +44,12 @@
 Подсказка: для работы с псевдослучайными числами удобно использовать 
 модуль random: http://docs.python.org/3/library/random.html
 """
-
-"""
-Карточка - список, заполяемый рандомом и проверкой каждого нового элемента на несовпадение с добавленными элементами
-[[ ], [ ], [ ]]
-
-Получение бочонка - генератор списка с range [1,90] и if not in used_items
-
-Card - заполнение, зачёркивание, вывод в отформатированном варианте
-"""
 import random
 
 class Card:
     match_counter = 0
     def __generate_numbers(self):
-        return random.sample(range(1,20), 15)
+        return random.sample(range(1,91), 15)
         
     def __slice_numbers(self, numbers):
         sliced_numbers = []
@@ -88,16 +79,17 @@ class Card:
 
     def print_current_state(self):
         print("Карточка ", self.owner)
+        print("---------------")
         for a in self.sliced_numbers:
             print(' '.join(str(e) for e in a))
-        print("------------------\n")
+        print("---------------\n")
 
     @property
     def win_status(self):
         return self.match_counter >= 15
 
 def quit_script():
-    print("До будущих побед!")
+    print("\nДо будущих побед!\n")
     return False
 
 def retrieve_number(lst):
@@ -108,27 +100,32 @@ def retrieve_number(lst):
 
 
 def game_script():
+    # Создаём карточки, заполняем "мешок" числами
     card1 = Card("Пользователя")
     card2 = Card("Компьютера")
 
-    avaliable_numbers = [a for a in range(1,31)] 
+    avaliable_numbers = [a for a in range(1,91)] 
 
+    # Игра идёт до момента, пока счётчик зачёркнутых номеров в одной из карточек не вернёт True
     while not card1.win_status and not card2.win_status:
-        answ = ""
         try:
             current_number = next(retrieve_number(avaliable_numbers))
         except:
             # Такого случая не должно быть, но не обрабатывать эксепшн тоже неправильно
             print("Бочонки закончились")
             return False
-        print("Новый бочонок: {} (осталось {})".format(current_number, len(avaliable_numbers)))
-        print(card1.print_current_state(), card2.print_current_state())
+        # Выводим новый бочонок и вид карточек на данный момент
+        print("\nНовый бочонок: #{} (осталось {})\n".format(current_number, len(avaliable_numbers)))
+        card1.print_current_state(), card2.print_current_state()
+        # Предлагаем пользователю сделать ход или выйти из игры
+        answ = ""
         while answ != "quit" or answ!= "y" or answ != "n":
             answ = input("Зачеркнуть цифру? (y/n), quit - выход ")
             if answ not in ["y", "n", "quit"]:
                 print("\nНеверная команда!\n")
             else:
                 break
+        # Обработка ответа
         if answ == "quit":
             commands[answ]()
         elif (answ == "y" and card1.exclude_value(current_number)) or (answ == "n" and not card1.exclude_value(current_number)):
@@ -139,12 +136,13 @@ def game_script():
             print("\nУвы, вы проиграли \n")
             return False
 
+    # Определяем победителя(лей)
     if card1.win_status and card2.win_status:
-        print("Ничья! Победила дружба \n")
+        print("\nНичья! Победила дружба \n")
     elif card2.win_status:
-        print("Сегодня удача на стороне компьютера! \n")
+        print("\nСегодня удача на стороне компьютера! \n")
     else:
-        print("Поздравляю! Вы победили! \n")
+        print("\nПоздравляю! Вы победили! \n")
 
 
 
@@ -155,7 +153,7 @@ commands = {
 
 answer = ""
 while answer != "quit":
-    answer = input("Сыграем? start - да, quit - нет \n")
+    answer = input("Сыграем? start - да, quit - выход \n")
     if commands.get(answer):
         commands[answer]()
     else:
